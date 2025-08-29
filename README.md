@@ -1,5 +1,6 @@
 ﻿# framebyframe
 
-stack: vite/react (ts) | python/fastapi | postgresql | sqlalchemy
+stack: vite/react (ts) | nodejs/express (ts) | postgresql | prisma
+
 
 
