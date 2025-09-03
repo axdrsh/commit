@@ -50,8 +50,8 @@ this roadmap outlines the backend development for a programmer matching app usin
 [x] **put `/api/profile`**: update a user's profile information.
 [x] **get `/api/profile/:userId`**: fetch a specific user's viewable profile.
 
-- **post `/api/profile/tech`**: add a technology to the user's tech stack.
-- **delete `/api/profile/tech/:techId`**: remove a technology from the tech stack.
+[x] **post `/api/profile/tech`**: add a technology to the user's tech stack.
+[x] **delete `/api/profile/tech/:techId`**: remove a technology from the tech stack.
 
 ## phase 3: swiping & matching logic
 
