@@ -20,4 +20,17 @@ model User {
   password  String
   name      String?
   createdAt DateTime @default(now())
+  bio               String?
+  age               Int?
+  gender            String?
+  profilePictureUrl String?
+  favoriteMovies    Movie[]
+}
+
+model Movie {
+  id        String @id @default(cuid())
+  tmdbId    Int    @unique // from The Movie Database API
+  title     String
+  posterPath String?
+  likedBy   User[]
 }

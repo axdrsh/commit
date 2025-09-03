@@ -8,24 +8,24 @@ This roadmap outlines the development process for the dating app backend using N
 
 ### Initialize Project:
 
-- Set up a new Node.js project (`npm init`).
-- Install dependencies: `express`, `typescript`, `@types/node`, `@types/express`, `ts-node`, `nodemon`.
-- Configure `tsconfig.json` for a Node.js environment.
-- Create a basic Express server in `src/index.ts`.
+[x] Set up a new Node.js project (`npm init`).
+[x] Install dependencies: `express`, `typescript`, `@types/node`, `@types/express`, `ts-node`, `nodemon`.
+[x] Configure `tsconfig.json` for a Node.js environment.
+[x] Create a basic Express server in `src/index.ts`.
 
 ### Database & Prisma Setup:
 
-- Install Prisma (`npm install prisma --save-dev`).
-- Initialize Prisma with the PostgreSQL provider (`npx prisma init`).
-- Define the User model in `prisma/schema.prisma` with fields like `id`, `email`, `password`, `name`, `createdAt`.
-- Run `npx prisma migrate dev` to sync your schema with the database.
+[x] Install Prisma (`npm install prisma --save-dev`).
+[x] Initialize Prisma with the PostgreSQL provider (`npx prisma init`).
+[x] Define the User model in `prisma/schema.prisma` with fields like `id`, `email`, `password`, `name`, `createdAt`.
+[x] Run `npx prisma migrate dev` to sync your schema with the database.
 
 ### Authentication Logic:
 
-- Install `bcrypt` for password hashing and `jsonwebtoken` for session management.
-- **Registration (`/auth/register`)**: Create an endpoint that accepts user details, hashes the password with bcrypt, and uses Prisma Client to save the new user to the database.
-- **Login (`/auth/login`)**: Create an endpoint that validates credentials. Find the user by email, compare the provided password with the stored hash using bcrypt. If valid, generate a JWT.
-- **Auth Middleware**: Create an Express middleware that verifies the JWT from the Authorization header on protected routes.
+[x] Install `bcrypt` for password hashing and `jsonwebtoken` for session management.
+[x] **Registration (`/auth/register`)**: Create an endpoint that accepts user details, hashes the password with bcrypt, and uses Prisma Client to save the new user to the database.
+[x] **Login (`/auth/login`)**: Create an endpoint that validates credentials. Find the user by email, compare the provided password with the stored hash using bcrypt. If valid, generate a JWT.
+[x] **Auth Middleware**: Create an Express middleware that verifies the JWT from the Authorization header on protected routes.
 
 ## Phase 2: User Profiles & Movie Preferences
 
@@ -33,11 +33,11 @@ This roadmap outlines the development process for the dating app backend using N
 
 ### Extend Database Schema:
 
-- Update `prisma/schema.prisma`.
-- Add a Movie model (`id`, `tmdbId`, `title`, `posterPath`).
-- Establish a many-to-many relationship between User and Movie to track favorites.
-- Add profile fields to the User model (bio, age, gender, profilePictureUrl).
-- Run `npx prisma migrate dev`.
+[x] Update `prisma/schema.prisma`.
+[x] Add a Movie model (`id`, `tmdbId`, `title`, `posterPath`).
+[x] Establish a many-to-many relationship between User and Movie to track favorites.
+[x] Add profile fields to the User model (bio, age, gender, profilePictureUrl).
+[x] Run `npx prisma migrate dev`.
 
 ### Integrate Movie Data:
 
