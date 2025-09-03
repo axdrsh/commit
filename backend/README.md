@@ -47,8 +47,9 @@ This roadmap outlines the development process for the dating app backend using N
 
 ### Profile Endpoints:
 
-- **PUT `/api/profile`**: Update a user's profile information.
-- **GET `/api/profile/:userId`**: Fetch a specific user's viewable profile.
+[x] **PUT `/api/profile`**: Update a user's profile information.
+[x] **GET `/api/profile/:userId`**: Fetch a specific user's viewable profile.
+
 - **POST `/api/profile/movies`**: Add a movie to the user's favorites.
 - **DELETE `/api/profile/movies/:movieId`**: Remove a movie from the favorites.
 
