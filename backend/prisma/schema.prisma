@@ -14,23 +14,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now())
-  bio               String?
+  id                String       @id @default(cuid())
+  email             String       @unique
+  password          String
+  name              String?
   age               Int?
   gender            String?
-  profilePictureUrl String?
-  favoriteMovies    Movie[]
+  createdAt         DateTime     @default(now())
+  bio               String?
+  yearsOfExperience Int?
+  role              String?
+  githubUrl         String?
+  technologies      Technology[]
 }
 
-model Movie {
-  id        String @id @default(cuid())
-  tmdbId    Int    @unique // from The Movie Database API
-  title     String
-  posterPath String?
-  likedBy   User[]
+model Technology {
+  id    String @id @default(cuid())
+  name  String @unique
+  type  TechType
+  users User[]
+}
+
+enum TechType {
+  LANGUAGE
+  FRAMEWORK
+  DATABASE
+  TOOL
+  LIBRARY
 }

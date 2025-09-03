@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "seed": "ts-node --project tsconfig-seed.json prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,128 +1,128 @@
-# Dating App: Backend Roadmap
+# programmer matching app: backend roadmap
 
-This roadmap outlines the development process for the dating app backend using Node.js/Express, TypeScript, PostgreSQL, and Prisma. The process is divided into five phases.
+this roadmap outlines the backend development for a programmer matching app using node.js/express, typescript, postgresql, and prisma. the process is divided into five phases.
 
-## Phase 1: Project Setup & User Authentication
+## phase 1: project setup & user authentication
 
-**Goal:** Establish the project foundation, connect to the database, and implement core user sign-up and login functionality.
+**goal:** establish the project foundation, connect to the database, and implement core user sign-up and login functionality.
 
-### Initialize Project:
+### initialize project:
 
-[x] Set up a new Node.js project (`npm init`).
-[x] Install dependencies: `express`, `typescript`, `@types/node`, `@types/express`, `ts-node`, `nodemon`.
-[x] Configure `tsconfig.json` for a Node.js environment.
-[x] Create a basic Express server in `src/index.ts`.
+[x] set up a new node.js project (`npm init`).
+[x] install dependencies: `express`, `typescript`, `@types/node`, `@types/express`, `ts-node`, `nodemon`.
+[x] configure `tsconfig.json` for a node.js environment.
+[x] create a basic express server in `src/index.ts`.
 
-### Database & Prisma Setup:
+### database & prisma setup:
 
-[x] Install Prisma (`npm install prisma --save-dev`).
-[x] Initialize Prisma with the PostgreSQL provider (`npx prisma init`).
-[x] Define the User model in `prisma/schema.prisma` with fields like `id`, `email`, `password`, `name`, `createdAt`.
-[x] Run `npx prisma migrate dev` to sync your schema with the database.
+[x] install prisma (`npm install prisma --save-dev`).
+[x] initialize prisma with the postgresql provider (`npx prisma init`).
+[x] define the `user` model in `prisma/schema.prisma` with fields like `id`, `email`, `password`, `name`, `createdAt`.
+[x] run `npx prisma migrate dev` to sync your schema with the database.
 
-### Authentication Logic:
+### authentication logic:
 
-[x] Install `bcrypt` for password hashing and `jsonwebtoken` for session management.
-[x] **Registration (`/auth/register`)**: Create an endpoint that accepts user details, hashes the password with bcrypt, and uses Prisma Client to save the new user to the database.
-[x] **Login (`/auth/login`)**: Create an endpoint that validates credentials. Find the user by email, compare the provided password with the stored hash using bcrypt. If valid, generate a JWT.
-[x] **Auth Middleware**: Create an Express middleware that verifies the JWT from the Authorization header on protected routes.
+[x] install `bcrypt` for password hashing and `jsonwebtoken` for session management.
+[x] **registration (`/auth/register`)**: create an endpoint that accepts user details, hashes the password with bcrypt, and uses prisma client to save the new user to the database.
+[x] **login (`/auth/login`)**: create an endpoint that validates credentials. find the user by email, compare the provided password with the stored hash using bcrypt. if valid, generate a jwt.
+[x] **auth middleware**: create an express middleware that verifies the jwt from the authorization header on protected routes.
 
-## Phase 2: User Profiles & Movie Preferences
+## phase 2: user profiles & tech stack
 
-**Goal:** Allow users to manage their profiles and add their favorite movies.
+**goal:** allow users to manage their profiles and add their tech stack.
 
-### Extend Database Schema:
+### extend database schema:
 
-[x] Update `prisma/schema.prisma`.
-[x] Add a Movie model (`id`, `tmdbId`, `title`, `posterPath`).
-[x] Establish a many-to-many relationship between User and Movie to track favorites.
-[x] Add profile fields to the User model (bio, age, gender, profilePictureUrl).
-[x] Run `npx prisma migrate dev`.
+[x] update `prisma/schema.prisma`.
+[x] add a `technology` model (`id`, `name`, `type` e.g., 'language', 'framework', 'database').
+[x] establish a many-to-many relationship between `user` and `technology` to track skills.
+[x] add profile fields to the `user` model (`bio`, `age`, `gender`, `yearsOfExperience`, `role`, `githubUrl`).
+[x] run `npx prisma migrate dev`.
 
-### Integrate Movie Data:
+### manage technology data:
 
-- Choose an external API for movie data (e.g., TMDb).
-- Create a service to handle fetching data from this API.
-- Build an endpoint (`/api/movies/search`) to allow the frontend to search for movies to add to the profile.
+[x] create a seed script to pre-populate the `technology` table with a comprehensive list of programming languages, frameworks, and tools.
 
-### Profile Endpoints:
+- build an endpoint (`/api/technologies`) for the frontend to fetch the list of available technologies to add to a profile.
 
-[x] **PUT `/api/profile`**: Update a user's profile information.
-[x] **GET `/api/profile/:userId`**: Fetch a specific user's viewable profile.
+### profile endpoints:
 
-- **POST `/api/profile/movies`**: Add a movie to the user's favorites.
-- **DELETE `/api/profile/movies/:movieId`**: Remove a movie from the favorites.
+[x] **put `/api/profile`**: update a user's profile information.
+[x] **get `/api/profile/:userId`**: fetch a specific user's viewable profile.
 
-## Phase 3: Swiping & Matching Logic
+- **post `/api/profile/tech`**: add a technology to the user's tech stack.
+- **delete `/api/profile/tech/:techId`**: remove a technology from the tech stack.
 
-**Goal:** Implement the core like/dislike functionality and create matches when two users mutually like each other.
+## phase 3: swiping & matching logic
 
-### Schema for Swipes:
+**goal:** implement the core like/dislike functionality and create matches when two users mutually like each other.
 
-- Create a `Like` model in `prisma/schema.prisma`.
-  - Fields: `id`, `likerId`, `likedId`, `createdAt`.
-- Run `npx prisma migrate dev`.
+### schema for swipes:
 
-### User Discovery Endpoint:
+- create a `like` model in `prisma/schema.prisma`.
+  - fields: `id`, `likerId`, `likedId`, `createdAt`.
+- run `npx prisma migrate dev`.
 
-- **GET `/api/users/discover`**: Return a list of potential profiles for the current user to swipe on.
+### user discovery endpoint:
 
-### Swipe & Match Logic:
+- **get `/api/users/discover`**: return a list of potential profiles for the current user to swipe on.
 
-- **POST `/api/like`**: Create an authenticated endpoint to handle user likes. Check if a "reverse" like exists to detect matches.
+### swipe & match logic:
 
-### Schema and Logic for Matches:
+- **post `/api/like`**: create an authenticated endpoint to handle user likes. check if a "reverse" like exists to detect matches.
 
-- Create a `Match` model in `prisma/schema.prisma`.
-  - Fields: `id`, `userAId`, `userBId`.
-- Create an endpoint to fetch matches: **GET `/api/matches`**.
+### schema and logic for matches:
 
-## Phase 4: Real-Time Chat
+- create a `match` model in `prisma/schema.prisma`.
+  - fields: `id`, `userAId`, `userBId`.
+- create an endpoint to fetch matches: **get `/api/matches`**.
 
-**Goal:** Enable real-time messaging between matched users.
+## phase 4: real-time chat
 
-### Technology:
+**goal:** enable real-time messaging between matched users.
 
-- Use `socket.io` for real-time communication.
+### technology:
 
-### Chat Schema:
+- use `socket.io` for real-time communication.
 
-- Create a `Message` model in `prisma/schema.prisma`.
-  - Fields: `id`, `content`, `createdAt`, `senderId`, `matchId`.
-- Run `npx prisma migrate dev`.
+### chat schema:
 
-### Socket.io Server Setup:
+- create a `message` model in `prisma/schema.prisma`.
+  - fields: `id`, `content`, `createdAt`, `senderId`, `matchId`.
+- run `npx prisma migrate dev`.
 
-- Integrate `socket.io` with Express.
-- Implement middleware for JWT authentication.
-- Users automatically join socket rooms for each of their matchIds.
+### socket.io server setup:
 
-### Event Handling:
+- integrate `socket.io` with express.
+- implement middleware for jwt authentication.
+- users automatically join socket rooms for each of their matchids.
 
-- Handle `sendMessage` event and broadcast messages to the matchId room.
+### event handling:
 
-### Chat History Endpoint:
+- handle `sendMessage` event and broadcast messages to the matchid room.
 
-- **GET `/api/matches/:matchId/messages`**: Fetch the message history for a chat.
+### chat history endpoint:
 
-## Phase 5: Advanced Matching & Deployment Prep
+- **get `/api/matches/:matchId/messages`**: fetch the message history for a chat.
 
-**Goal:** Refine the matching algorithm to use movie data and prepare the application for a production environment.
+## phase 5: advanced matching & deployment prep
 
-### Movie-Based Matching Algorithm:
+**goal:** refine the matching algorithm to use tech stack data and prepare the application for a production environment.
 
-- Enhance `GET /api/users/discover` to calculate a "compatibility score" based on shared favorite movies.
-  - Scoring formula: `(Number of Common Movies / Total Movies of User A) * 100`.
+### tech-stack-based matching algorithm:
 
-### Production Hardening:
+- enhance `get /api/users/discover` to calculate a "compatibility score" based on shared technologies.
+  - scoring formula: `(number of common technologies / total technologies of user a) * 100`.
 
-- **Environment Variables**: Use a `.env` file for secrets (database connection string, JWT secret, external API keys).
-- **CORS**: Configure CORS to accept requests from the frontend URL.
-- **Input Validation**: Use a library like `zod` to validate incoming request bodies and parameters.
-- **Global Error Handling**: Implement centralized error-handling middleware.
+### production hardening:
 
-### Deployment:
+- **environment variables**: use a `.env` file for secrets (database connection string, jwt secret).
+- **cors**: configure cors to accept requests from the frontend url.
+- **input validation**: use a library like `zod` to validate incoming request bodies and parameters.
+- **global error handling**: implement centralized error-handling middleware.
 
-- **Containerization**: Write a Dockerfile to containerize the Node.js application.
-- **Hosting**: Choose a platform to host the backend and database (e.g., Render, Fly.io, Railway, AWS).
-- **CI/CD**: Set up CI/CD using GitHub Actions to automatically deploy on changes.
+### deployment:
+
+- **containerization**: write a dockerfile to containerize the node.js application.
+- **hosting**: choose a platform to host the backend and database (e.g., render, fly.io, railway, aws).
+- **ci/cd**: set up ci/cd using github actions to automatically deploy on changes.
