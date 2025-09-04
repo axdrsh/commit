@@ -43,7 +43,7 @@ this roadmap outlines the backend development for a programmer matching app usin
 
 [x] create a seed script to pre-populate the `technology` table with a comprehensive list of programming languages, frameworks, and tools.
 
-- build an endpoint (`/api/technologies`) for the frontend to fetch the list of available technologies to add to a profile.
+[x] build an endpoint (`/api/technologies`) for the frontend to fetch the list of available technologies to add to a profile.
 
 ### profile endpoints:
 
@@ -59,13 +59,13 @@ this roadmap outlines the backend development for a programmer matching app usin
 
 ### schema for swipes:
 
-- create a `like` model in `prisma/schema.prisma`.
-  - fields: `id`, `likerId`, `likedId`, `createdAt`.
-- run `npx prisma migrate dev`.
+[x] create a `like` model in `prisma/schema.prisma`.
+[x] fields: `id`, `likerId`, `likedId`, `createdAt`.
+[x] run `npx prisma migrate dev`.
 
 ### user discovery endpoint:
 
-- **get `/api/users/discover`**: return a list of potential profiles for the current user to swipe on.
+[x] **get `/api/users/discover`**: return a list of potential profiles for the current user to swipe on.
 
 ### swipe & match logic:
 

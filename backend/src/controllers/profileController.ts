@@ -188,3 +188,52 @@ export const removeTechnologyFromProfile = async (
     });
   }
 };
+
+// get users for discovery/swiping
+export const getUsersForDiscovery = async (req: AuthRequest, res: Response) => {
+  const currentUserId = req.userId;
+
+  try {
+    // First, get all user IDs that the current user has already liked
+    const alreadyLiked = await prisma.like.findMany({
+      where: { likerId: currentUserId },
+      select: { likedId: true },
+    });
+
+    const alreadyLikedUserIds = alreadyLiked.map((like) => like.likedId);
+
+    // Get users excluding current user and already liked users
+    const users = await prisma.user.findMany({
+      where: {
+        id: {
+          not: currentUserId,
+          notIn: alreadyLikedUserIds,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+        age: true,
+        gender: true,
+        yearsOfExperience: true,
+        role: true,
+        githubUrl: true,
+        technologies: true,
+      },
+      take: 20, // Limit to 20 users at a time
+    });
+
+    res.json({
+      success: true,
+      data: users,
+      count: users.length,
+    });
+  } catch (error) {
+    console.error("Error fetching users for discovery:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch users for discovery",
+    });
+  }
+};

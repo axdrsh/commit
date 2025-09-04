@@ -28,6 +28,8 @@ model User {
   role              String?
   githubUrl         String?
   technologies      Technology[]
+  likes             Like[]       @relation("UserLikes")
+  likedBy           Like[]       @relation("UserLiked")
 }
 
 model Technology {
@@ -43,4 +45,14 @@ enum TechType {
   DATABASE
   TOOL
   LIBRARY
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  likerId   String
+  likedId   String
+  createdAt DateTime @default(now())
+  liker User @relation("UserLikes", fields: [likerId], references: [id])
+  liked User @relation("UserLiked", fields: [likedId], references: [id])
+  @@unique([likerId, likedId])
 }
