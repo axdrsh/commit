@@ -69,13 +69,13 @@ this roadmap outlines the backend development for a programmer matching app usin
 
 ### swipe & match logic:
 
-- **post `/api/like`**: create an authenticated endpoint to handle user likes. check if a "reverse" like exists to detect matches.
+[x] **post `/api/like`**: create an authenticated endpoint to handle user likes. check if a "reverse" like exists to detect matches.
 
 ### schema and logic for matches:
 
-- create a `match` model in `prisma/schema.prisma`.
-- fields: `id`, `userAId`, `userBId`.
-- create an endpoint to fetch matches: **get `/api/matches`**.
+[x] create a `match` model in `prisma/schema.prisma`.
+[x] fields: `id`, `userAId`, `userBId`.
+[x] create an endpoint to fetch matches: **get `/api/matches`**.
 
 ## phase 4: real-time chat
 
