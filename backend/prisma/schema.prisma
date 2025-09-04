@@ -30,6 +30,8 @@ model User {
   technologies      Technology[]
   likes             Like[]       @relation("UserLikes")
   likedBy           Like[]       @relation("UserLiked")
+  matchesAsUserA    Match[]      @relation("UserAMatches")
+  matchesAsUserB    Match[]      @relation("UserBMatches")
 }
 
 model Technology {
@@ -55,4 +57,14 @@ model Like {
   liker User @relation("UserLikes", fields: [likerId], references: [id])
   liked User @relation("UserLiked", fields: [likedId], references: [id])
   @@unique([likerId, likedId])
+}
+
+model Match {
+  id        String   @id @default(cuid())
+  userAId   String
+  userBId   String
+  createdAt DateTime @default(now())
+  userA User @relation("UserAMatches", fields: [userAId], references: [id])
+  userB User @relation("UserBMatches", fields: [userBId], references: [id])
+  @@unique([userAId, userBId])
 }

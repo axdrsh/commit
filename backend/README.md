@@ -74,7 +74,7 @@ this roadmap outlines the backend development for a programmer matching app usin
 ### schema and logic for matches:
 
 - create a `match` model in `prisma/schema.prisma`.
-  - fields: `id`, `userAId`, `userBId`.
+- fields: `id`, `userAId`, `userBId`.
 - create an endpoint to fetch matches: **get `/api/matches`**.
 
 ## phase 4: real-time chat
