@@ -32,6 +32,7 @@ model User {
   likedBy           Like[]       @relation("UserLiked")
   matchesAsUserA    Match[]      @relation("UserAMatches")
   matchesAsUserB    Match[]      @relation("UserBMatches")
+  sentMessages      Message[]    @relation("MessageSender")
 }
 
 model Technology {
@@ -60,11 +61,22 @@ model Like {
 }
 
 model Match {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userAId   String
   userBId   String
-  createdAt DateTime @default(now())
-  userA User @relation("UserAMatches", fields: [userAId], references: [id])
-  userB User @relation("UserBMatches", fields: [userBId], references: [id])
+  createdAt DateTime  @default(now())
+  userA     User      @relation("UserAMatches", fields: [userAId], references: [id])
+  userB     User      @relation("UserBMatches", fields: [userBId], references: [id])
+  messages  Message[]
   @@unique([userAId, userBId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  senderId  String
+  matchId   String
+  sender    User     @relation("MessageSender", fields: [senderId], references: [id])
+  match     Match    @relation(fields: [matchId], references: [id])
 }
