@@ -21,6 +21,7 @@ model User {
   yearsOfExperience Int?
   role              String?
   githubUrl         String?
+  profilePicture    String?      // URL to the uploaded profile picture
   technologies      Technology[]
   likes             Like[]       @relation("UserLikes")
   likedBy           Like[]       @relation("UserLiked")

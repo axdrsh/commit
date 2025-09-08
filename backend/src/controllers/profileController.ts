@@ -1,6 +1,8 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware"; // adjust path
 import prisma from "../utils/prisma"; // adjust path
+import fs from "fs";
+import path from "path";
 
 export const updateProfile = async (req: AuthRequest, res: Response) => {
   const userId = req.userId;
@@ -22,6 +24,7 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
         bio: true,
         age: true,
         gender: true,
+        profilePicture: true,
         createdAt: true,
       },
     });
@@ -46,6 +49,7 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
         yearsOfExperience: true,
         role: true,
         githubUrl: true,
+        profilePicture: true,
         technologies: true,
       },
     });
@@ -206,6 +210,7 @@ export const getUsersForDiscovery = async (req: AuthRequest, res: Response) => {
         yearsOfExperience: true,
         role: true,
         githubUrl: true,
+        profilePicture: true,
         technologies: true,
       },
       take: 20, // Limit to 20 users at a time
@@ -221,6 +226,130 @@ export const getUsersForDiscovery = async (req: AuthRequest, res: Response) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch users for discovery",
+    });
+  }
+};
+
+// Upload profile picture
+export const uploadProfilePicture = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        error: "No file uploaded",
+      });
+    }
+
+    // Get current user to check if they have an existing profile picture
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { profilePicture: true },
+    });
+
+    // Delete old profile picture if it exists
+    if (currentUser?.profilePicture) {
+      const oldFilePath = path.join(
+        process.cwd(),
+        "uploads/profile-pictures",
+        path.basename(currentUser.profilePicture)
+      );
+      if (fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath);
+      }
+    }
+
+    // Create URL for the uploaded file
+    const profilePictureUrl = `/uploads/profile-pictures/${req.file.filename}`;
+
+    // Update user's profile picture in database
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { profilePicture: profilePictureUrl },
+      select: {
+        id: true,
+        name: true,
+        profilePicture: true,
+      },
+    });
+
+    res.json({
+      success: true,
+      message: "Profile picture uploaded successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error uploading profile picture:", error);
+
+    // Clean up uploaded file if database update failed
+    if (req.file) {
+      const filePath = path.join(
+        process.cwd(),
+        "uploads/profile-pictures",
+        req.file.filename
+      );
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    }
+
+    res.status(500).json({
+      success: false,
+      error: "Failed to upload profile picture",
+    });
+  }
+};
+
+// Delete profile picture
+export const deleteProfilePicture = async (req: AuthRequest, res: Response) => {
+  const userId = req.userId;
+
+  try {
+    // Get current user to check if they have a profile picture
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { profilePicture: true },
+    });
+
+    if (!currentUser?.profilePicture) {
+      return res.status(404).json({
+        success: false,
+        error: "No profile picture found",
+      });
+    }
+
+    // Delete the file from filesystem
+    const filePath = path.join(
+      process.cwd(),
+      "uploads/profile-pictures",
+      path.basename(currentUser.profilePicture)
+    );
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Remove profile picture URL from database
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { profilePicture: null },
+      select: {
+        id: true,
+        name: true,
+        profilePicture: true,
+      },
+    });
+
+    res.json({
+      success: true,
+      message: "Profile picture deleted successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error deleting profile picture:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to delete profile picture",
     });
   }
 };

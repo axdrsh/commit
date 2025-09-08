@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import { createServer } from "http";
 import cors from "cors";
+import path from "path";
 import router from "./routes/authRouter";
 import profileRouter from "./routes/profileRouter";
 import technologyRouter from "./routes/technologyRouter";
@@ -23,6 +24,9 @@ app.use(
 );
 
 app.use(express.json());
+
+// Serve uploaded files statically
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use("/auth", router);
 app.use("/profile", profileRouter);
