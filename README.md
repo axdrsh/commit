@@ -1,6 +1,7 @@
 # commit
 
 a dating app for programmers.
+
 stack: minimal next.js + supabase.
 
 ## setup
