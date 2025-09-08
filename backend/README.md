@@ -93,17 +93,17 @@ this roadmap outlines the backend development for a programmer matching app usin
 
 ### socket.io server setup:
 
-- integrate `socket.io` with express.
-- implement middleware for jwt authentication.
-- users automatically join socket rooms for each of their matchids.
+[x] integrate `socket.io` with express.
+[x] implement middleware for jwt authentication.
+[x] users automatically join socket rooms for each of their matchids.
 
 ### event handling:
 
-- handle `sendMessage` event and broadcast messages to the matchid room.
+[x] handle `sendMessage` event and broadcast messages to the matchid room.
 
 ### chat history endpoint:
 
-- **get `/api/matches/:matchId/messages`**: fetch the message history for a chat.
+[x] **get `/api/matches/:matchId/messages`**: fetch the message history for a chat.
 
 ## phase 5: advanced matching & deployment prep
 
