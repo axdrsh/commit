@@ -1,4 +1,4 @@
-﻿# commit
+﻿# commit <3
 
 note: this is just the backend, i lost interest in coding the frontend. <br />
 **Stack:** Node.js + Express + TypeScript + PostgreSQL + Prisma + Socket.IO + JWT
@@ -64,3 +64,4 @@ npm run dev  # localhost:3000
 4. Swipe (like/pass) on profiles
 5. Match when both users like each other
 6. Real-time chat with matched users
+
