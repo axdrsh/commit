@@ -1,6 +1,7 @@
 # commit
 
-minimal next.js + supabase app.
+a dating app for programmers.
+stack: minimal next.js + supabase.
 
 ## setup
 
