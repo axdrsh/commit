@@ -2,7 +2,6 @@ import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
 import prisma from "../utils/prisma";
 
-// handle user like - create like and check for mutual match
 export const likeUser = async (req: AuthRequest, res: Response) => {
   const currentUserId = req.userId;
   const { likedUserId } = req.body;
@@ -29,7 +28,6 @@ export const likeUser = async (req: AuthRequest, res: Response) => {
   }
 
   try {
-    // Check if user has already liked this person
     const existingLike = await prisma.like.findFirst({
       where: {
         likerId: currentUserId,
@@ -44,7 +42,6 @@ export const likeUser = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    // Check if the liked user exists
     const likedUser = await prisma.user.findUnique({
       where: { id: likedUserId },
     });
@@ -56,7 +53,6 @@ export const likeUser = async (req: AuthRequest, res: Response) => {
       });
     }
 
-    // Create the like
     const like = await prisma.like.create({
       data: {
         likerId: currentUserId,
@@ -64,7 +60,6 @@ export const likeUser = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    // Check if there's a mutual like (reverse like exists)
     const reverseLike = await prisma.like.findFirst({
       where: {
         likerId: likedUserId,
@@ -76,8 +71,6 @@ export const likeUser = async (req: AuthRequest, res: Response) => {
     let isMatch = false;
 
     if (reverseLike) {
-      // It's a match! Create a match record
-      // Ensure consistent ordering: smaller ID as userA, larger as userB
       const userAId = currentUserId < likedUserId ? currentUserId : likedUserId;
       const userBId = currentUserId < likedUserId ? likedUserId : currentUserId;
 
@@ -132,7 +125,6 @@ export const likeUser = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// get all matches for the current user
 export const getMatches = async (req: AuthRequest, res: Response) => {
   const currentUserId = req.userId;
 
@@ -181,7 +173,6 @@ export const getMatches = async (req: AuthRequest, res: Response) => {
       },
     });
 
-    // Format the response to show the "other" user for each match
     const formattedMatches = matches.map((match) => {
       const otherUser =
         match.userAId === currentUserId ? match.userB : match.userA;

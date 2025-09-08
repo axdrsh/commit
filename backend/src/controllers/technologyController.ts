@@ -8,7 +8,6 @@ export const getAllTechnologies = async (req: Request, res: Response) => {
       orderBy: [{ type: "asc" }, { name: "asc" }],
     });
 
-    // Group technologies by type for easier frontend consumption
     const groupedTechnologies = technologies.reduce((acc, tech) => {
       if (!acc[tech.type]) {
         acc[tech.type] = [];

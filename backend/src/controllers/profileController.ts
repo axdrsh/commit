@@ -2,7 +2,6 @@ import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware"; // adjust path
 import prisma from "../utils/prisma"; // adjust path
 
-// update the authenticated user's profile
 export const updateProfile = async (req: AuthRequest, res: Response) => {
   const userId = req.userId;
   const { name, bio, age, gender, profilePictureUrl } = req.body;
@@ -17,7 +16,6 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
         gender,
       },
       select: {
-        // ensures we don't return the password
         id: true,
         email: true,
         name: true,
@@ -33,7 +31,6 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// get a user's public profile
 export const getProfile = async (req: AuthRequest, res: Response) => {
   const { userId } = req.params;
 
@@ -62,7 +59,6 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
-// add a technology to the authenticated user's profile
 export const addTechnologyToProfile = async (
   req: AuthRequest,
   res: Response
@@ -78,7 +74,6 @@ export const addTechnologyToProfile = async (
   }
 
   try {
-    // Check if technology exists
     const technology = await prisma.technology.findUnique({
       where: { id: technologyId },
     });
@@ -90,7 +85,6 @@ export const addTechnologyToProfile = async (
       });
     }
 
-    // Check if user already has this technology
     const existingConnection = await prisma.user.findFirst({
       where: {
         id: userId,
@@ -107,7 +101,6 @@ export const addTechnologyToProfile = async (
       });
     }
 
-    // Add technology to user's profile
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
@@ -135,7 +128,6 @@ export const addTechnologyToProfile = async (
   }
 };
 
-// remove a technology from the authenticated user's profile
 export const removeTechnologyFromProfile = async (
   req: AuthRequest,
   res: Response
@@ -144,7 +136,6 @@ export const removeTechnologyFromProfile = async (
   const { techId } = req.params;
 
   try {
-    // Check if user has this technology
     const userWithTech = await prisma.user.findFirst({
       where: {
         id: userId,
@@ -161,7 +152,6 @@ export const removeTechnologyFromProfile = async (
       });
     }
 
-    // Remove technology from user's profile
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
@@ -189,12 +179,10 @@ export const removeTechnologyFromProfile = async (
   }
 };
 
-// get users for discovery/swiping
 export const getUsersForDiscovery = async (req: AuthRequest, res: Response) => {
   const currentUserId = req.userId;
 
   try {
-    // First, get all user IDs that the current user has already liked
     const alreadyLiked = await prisma.like.findMany({
       where: { likerId: currentUserId },
       select: { likedId: true },
@@ -202,7 +190,6 @@ export const getUsersForDiscovery = async (req: AuthRequest, res: Response) => {
 
     const alreadyLikedUserIds = alreadyLiked.map((like) => like.likedId);
 
-    // Get users excluding current user and already liked users
     const users = await prisma.user.findMany({
       where: {
         id: {

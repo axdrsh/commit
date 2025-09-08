@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-// you need to extend the Express Request type to add your own properties.
 export interface AuthRequest extends Request {
   userId?: string;
 }

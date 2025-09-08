@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-default-secret";
 
-// register
 export const register = async (req: Request, res: Response) => {
   try {
     const { email, password, name } = req.body;
@@ -34,7 +33,6 @@ export const register = async (req: Request, res: Response) => {
     res.status(201).json({ token });
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
-      // prisma code for unique constraint violation
       if (error.code === "P2002") {
         return res.status(409).json({ message: "email already exists" });
       }
@@ -43,7 +41,6 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-// login
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
