@@ -29,7 +29,7 @@ npm run dev  # localhost:3000
 - `POST /profile/picture` - Upload profile picture
 - `DELETE /profile/picture` - Delete profile picture
 
-**Technologies:**
+**Tech Stack:**
 
 - `GET /api/technologies` - Get all available techs (languages, frameworks, databases, tools)
 
@@ -64,4 +64,5 @@ npm run dev  # localhost:3000
 4. Swipe (like/pass) on profiles
 5. Match when both users like each other
 6. Real-time chat with matched users
+
 
