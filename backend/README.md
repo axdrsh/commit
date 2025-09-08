@@ -83,7 +83,7 @@ this roadmap outlines the backend development for a programmer matching app usin
 
 ### technology:
 
-- use `socket.io` for real-time communication.
+[x] use `socket.io` for real-time communication.
 
 ### chat schema:
 
