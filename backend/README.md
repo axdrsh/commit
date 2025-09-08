@@ -87,9 +87,9 @@ this roadmap outlines the backend development for a programmer matching app usin
 
 ### chat schema:
 
-- create a `message` model in `prisma/schema.prisma`.
-- fields: `id`, `content`, `createdAt`, `senderId`, `matchId`.
-- run `npx prisma migrate dev`.
+[x] create a `message` model in `prisma/schema.prisma`.
+[x] fields: `id`, `content`, `createdAt`, `senderId`, `matchId`.
+[x] run `npx prisma migrate dev`.
 
 ### socket.io server setup:
 
